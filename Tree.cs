@@ -15,32 +15,46 @@ namespace ForestSim
     class Tree
     {
         protected int _age;
-        protected bool _diseased;
-    }
-    class Fir : Tree, ICuttable
-    {
-        public bool Cut()
+        public int Age_Days
         {
-            return true;
+            get { return _age; }
+            protected set
+            {
+                if (value >= 0) { _age = value; }
+                else { _age = 0; }
+            }
         }
-    }
-    class Spruce : Tree, ICuttable
-    {
-        public bool Cut()
-        {
-            return true;
-        }
-    }
-    class Maple : Tree, ICuttable, ITapable
-    {
-        public bool Cut()
-        {
-            return true;
-        }
+        public double Age_Years { get { return _age / (double)365; } }
 
-        public bool Tap()
+        public Tree(int age_days) //TEMP! Should never create plain tree obj
         {
-            return true;
+            Age_Days = age_days;
         }
     }
+    //class Fir : Tree, ICuttable
+    //{
+    //    public bool Cut()
+    //    {
+    //        return true;
+    //    }
+    //}
+    //class Spruce : Tree, ICuttable
+    //{
+    //    public bool Cut()
+    //    {
+    //        return true;
+    //    }
+    //}
+    //class Maple : Tree, ICuttable, ITapable
+    //{
+    //    public bool Cut()
+    //    {
+    //        return true;
+    //    }
+
+    //    public bool Tap()
+    //    {
+    //        return true;
+    //    }
+    //}
 }
