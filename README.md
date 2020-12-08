@@ -1,2 +1,2 @@
-# NO PUSHING TO MAIN
+# NO PUSHING TO MASTER
 Make a branch please :)
