@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\thoma\\Documents\\CS\\ForestSim\\ForestSim\\ForestSim.csproj": {}
+    "C:\\Users\\thoma\\Documents\\CS\\ForestSim\\ForestSim.csproj": {}
   },
   "projects": {
-    "C:\\Users\\thoma\\Documents\\CS\\ForestSim\\ForestSim\\ForestSim.csproj": {
+    "C:\\Users\\thoma\\Documents\\CS\\ForestSim\\ForestSim.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\thoma\\Documents\\CS\\ForestSim\\ForestSim\\ForestSim.csproj",
+        "projectUniqueName": "C:\\Users\\thoma\\Documents\\CS\\ForestSim\\ForestSim.csproj",
         "projectName": "ForestSim",
-        "projectPath": "C:\\Users\\thoma\\Documents\\CS\\ForestSim\\ForestSim\\ForestSim.csproj",
+        "projectPath": "C:\\Users\\thoma\\Documents\\CS\\ForestSim\\ForestSim.csproj",
         "packagesPath": "C:\\Users\\thoma\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\thoma\\Documents\\CS\\ForestSim\\ForestSim\\obj\\",
+        "outputPath": "C:\\Users\\thoma\\Documents\\CS\\ForestSim\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\thoma\\AppData\\Roaming\\NuGet\\NuGet.Config",
