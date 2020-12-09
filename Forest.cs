@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using ForestSim.Utils;
+using System;
 
 namespace ForestSim
 {
-    class Forest
+    public class Forest
     {
         private Tree[,] _trees;
+
         public Forest(int ForestWidth, int ForestHeight)
         {
             _trees = CreateForestArray(ForestWidth, ForestHeight);
@@ -26,7 +26,6 @@ namespace ForestSim
                 {
                     forest[j, i] = DecideTree(rng);
                 }
-
             }
             return forest;
         }
@@ -47,6 +46,33 @@ namespace ForestSim
                 outputTree = new Fir();
                 return outputTree;
             }
+        }
+
+        public void ReplantTree(int x, int y)
+        {
+            Tree newTree;
+            int randNum = GeneralUtils.GetRandomNumber(1, 15);
+
+            //Ratio of 5:8:2 maple:fir:spurce so 1/3 is maple and other is split 4:1
+
+            switch (randNum)
+            {
+                case 1:
+                    newTree = new Fir();
+                    break;
+
+                case int i when (1 <= i && i <= 5):
+                    newTree = new Maple();
+                    break;
+
+                case int i when (6 <= i && i <= 15):
+                    newTree = new Spruce();
+                    break;
+                default:
+                    throw new InvalidOperationException();
+            }
+
+            _trees[x, y] = newTree;
         }
 
         private void DisplayForest(Tree[,] forest)
