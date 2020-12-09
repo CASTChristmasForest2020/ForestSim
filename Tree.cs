@@ -25,7 +25,14 @@ namespace ForestSim
             }
         }
         public double Age_Years { get { return _age / (double)365; } }
-
+        protected void Increment_Age(int days)
+        {
+            Age_Days += days;
+        }
+        protected void Increment_Age()
+        {
+            Increment_Age(1);
+        }
         public Tree(int age_days) //TEMP! Should never create plain tree obj
         {
             Age_Days = age_days;
