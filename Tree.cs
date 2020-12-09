@@ -16,12 +16,13 @@ namespace ForestSim
     {
         Young,
         Mature,
-        Elderly
+        Elderly,
+        Unknown
     }
     class Tree
     {
         //TODO: Make abstract
-        protected (int yearStart, AgeCatagory ageCatagory)[] _ageRange; // Array of tuples :D
+        protected (int yearStart, AgeCatagory ageCatagory)[] _ageRanges; // Array of tuples :D
         protected int _age;
         public int Age_Days
         {
@@ -29,7 +30,7 @@ namespace ForestSim
             protected set
             {
                 if (value >= 0) { _age = value; }
-                else { _age = 0; }
+                else { _age = 0; } //TODO: Throw error
             }
         }
         public double Age_Years { get { return _age / (double)365; } }
@@ -41,6 +42,19 @@ namespace ForestSim
         {
             Increment_Age(1);
         }
+        public AgeCatagory AgeCatagory {
+            get
+            {
+                for (int i = _ageRanges.Length - 1; i >= 0; i--)
+                {
+                    if (_age >= _ageRanges[i].yearStart)
+                    {
+                        return _ageRanges[i].ageCatagory;
+                    }
+                }
+                return AgeCatagory.Unknown;
+            }
+        }
         public Tree(int age_days)
         {
             Age_Days = age_days;
@@ -50,7 +64,7 @@ namespace ForestSim
     {
         public Fir(int age_days) : base(age_days)
         {
-            _ageRange = new (int yearStart, AgeCatagory ageCatagory)[] {
+            _ageRanges = new (int yearStart, AgeCatagory ageCatagory)[] {
                 (0, AgeCatagory.Young),
                 (25, AgeCatagory.Mature),
                 (70, AgeCatagory.Elderly)
