@@ -51,24 +51,44 @@ namespace ForestSim
 
         private void DisplayForest(Tree[,] forest)
         {
+            String ASCIIChar;
             // Column
             for (int i = 0; i < forest.GetLength(1); i++)
             {
                 // Row
                 for (int j = 0; j < forest.GetLength(0); j++)
                 {
-                    // Checks tree type to output
+                    // Checks tree attributes to output. Att.'s sooner in the foreground & background sections take precident.
+
+                    //FOREGROUND
+                    if (forest[j, i].Has_Dove)
+                    {
+                        Console.BackgroundColor = ConsoleColor.White;
+                    }
+                    else
+                    {
+                        Console.BackgroundColor = ConsoleColor.Black;
+                    }
+
+                    //BACKGROUND
                     if (forest[j, i].GetType() == typeof(Spruce))
                     {
                         Console.ForegroundColor = ConsoleColor.DarkCyan;
-                        Console.Write("s", Console.ForegroundColor);
+                        ASCIIChar = "s";
                     }
                     else if (forest[j, i].GetType() == typeof(Fir))
                     {
                         Console.ForegroundColor = ConsoleColor.DarkGreen;
-                        Console.Write("f", Console.ForegroundColor);
+                        ASCIIChar = "f";
                     }
+                    else
+                    {
+                        ASCIIChar = " ";
+                    }
+                    Console.Write(ASCIIChar);
                 }
+                Console.BackgroundColor = ConsoleColor.Black;
+                Console.WriteLine();
             }
         }
     }
