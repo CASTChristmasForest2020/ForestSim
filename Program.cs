@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Text;
 
 namespace ForestSim
 {
@@ -6,7 +8,7 @@ namespace ForestSim
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            Forest forest = new Forest(100, 100);
         }
     }
 }
