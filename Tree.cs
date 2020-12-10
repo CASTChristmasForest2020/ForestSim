@@ -36,6 +36,11 @@ namespace ForestSim
             else { Has_Dove = false; }
         }
 
+        public void Daily()
+        {
+            Increment_Age(_ageQuickly ? 3 : 1);
+        }
+
         //AGE:
         protected int _age;
         protected (int minAge, AgeCatagory ageCatagory)[] _ageRanges; // Array of tuples :D
@@ -75,6 +80,7 @@ namespace ForestSim
                 return AgeCatagory.Unknown;
             }
         }
+        protected bool _ageQuickly;
 
         //DOVES
         public bool Has_Dove
