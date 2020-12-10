@@ -34,7 +34,7 @@ namespace ForestSim
 
         //AGE:
         protected int _age;
-        protected (int yearStart, AgeCatagory ageCatagory)[] _ageRanges; // Array of tuples :D
+        protected (int minAge, AgeCatagory ageCatagory)[] _ageRanges; // Array of tuples :D
 
         public int Age_Days
         {
@@ -42,7 +42,9 @@ namespace ForestSim
             protected set
             {
                 if (value >= 0) { _age = value; }
-                else { _age = 0; } //TODO: Throw error
+                else {
+                    throw new ArgumentOutOfRangeException("Age_Days", String.Format("{0} is a negative age.", value));
+                }
             }
         }
         public double Age_Years { get { return _age / (double)365; } }
@@ -61,7 +63,7 @@ namespace ForestSim
             {
                 for (int i = _ageRanges.Length - 1; i >= 0; i--)
                 {
-                    if (_age >= _ageRanges[i].yearStart)
+                    if (_age >= _ageRanges[i].minAge)
                     {
                         return _ageRanges[i].ageCatagory;
                     }
@@ -81,7 +83,7 @@ namespace ForestSim
     {
         public Fir (int age_days = 0) : base (age_days)
         {
-            _ageRanges = new (int yearStart, AgeCatagory ageCatagory)[] {
+            _ageRanges = new (int minAge, AgeCatagory ageCatagory)[] {
                 (0, AgeCatagory.Young),
                 (25, AgeCatagory.Mature),
                 (70, AgeCatagory.Elderly)
@@ -96,7 +98,7 @@ namespace ForestSim
     {
         public Spruce(int age_days = 0) : base (age_days)
         {
-            _ageRanges = new (int yearStart, AgeCatagory ageCatagory)[] {
+            _ageRanges = new (int minAge, AgeCatagory ageCatagory)[] {
                 (0, AgeCatagory.Young),
                 (90, AgeCatagory.Mature),
                 (150, AgeCatagory.Elderly)
@@ -111,7 +113,7 @@ namespace ForestSim
     {
         public Maple(int age_days = 0) : base(age_days)
         {
-            _ageRanges = new (int yearStart, AgeCatagory ageCatagory)[] {
+            _ageRanges = new (int minAge, AgeCatagory ageCatagory)[] {
                 (0, AgeCatagory.Young),
                 (4, AgeCatagory.Mature) //Tapable at mature, instead of cuttable
             };
