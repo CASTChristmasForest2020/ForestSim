@@ -28,7 +28,7 @@ namespace ForestSim
 
             Age_Days = age_days;
             
-            if (r.Next(0, 50) == 0) { Has_Dove = true; }
+            if (r.Next(0, 51) == 0) { Has_Dove = true; }
             else { Has_Dove = false; }
         }
 
