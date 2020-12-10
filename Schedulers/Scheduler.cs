@@ -10,12 +10,12 @@ namespace ForestSim
             this.forest = forest;
         }
 
-        abstract public void OnDay(object sender, EventArgs e);
+        virtual public void OnDay(object sender, EventArgs e) { }
 
-        abstract public void OnPostDay(object sender, EventArgs e);
+        virtual public void OnPostDay(object sender, EventArgs e) { }
 
-        abstract public void OnMonth(object sender, EventArgs e);
+        virtual public void OnMonth(object sender, EventArgs e) { }
 
-        abstract public void OnYear(object sender, EventArgs e);
+        virtual public void OnYear(object sender, EventArgs e) { }
     }
 }

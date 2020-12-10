@@ -3,13 +3,19 @@ using System;
 
 namespace ForestSim
 {
-    class Forest
+    public class Forest
     {
         private Tile[,] _forest;
+
+        public readonly int ForestWidth;
+        public readonly int ForestHeight;
+
         public Forest(int ForestWidth, int ForestHeight)
         {
+            this.ForestWidth = ForestWidth;
+            this.ForestHeight = ForestHeight;
             _forest = CreateForestArray(ForestWidth, ForestHeight);
-            DisplayForest(_forest);
+            DisplayForest();
         }
 
         private Tree[,] CreateForestArray(int width, int height)
@@ -25,7 +31,6 @@ namespace ForestSim
                 {
                     forest[j, i] = DecideTree(rng);
                 }
-
             }
             return forest;
         }
@@ -38,30 +43,31 @@ namespace ForestSim
             int chosenNumber = rng.Next(50);
             if (chosenNumber <= 10)
             {
-                outputTree = new Spruce();
+                outputTree = new Spruce(90);
                 return outputTree;
             }
             else
             {
-                outputTree = new Fir();
+                outputTree = new Fir(30);
                 return outputTree;
             }
         }
 
-        private void DisplayForest(Tile[,] forest)
+        public void DisplayForest()
         {
+            Console.SetCursorPosition(0, 0);
             Char ASCIIChar;
             // Column
-            for (int i = 0; i < forest.GetLength(1); i++)
+            for (int i = 0; i < _forest.GetLength(1); i++)
             {
                 // Row
-                for (int j = 0; j < forest.GetLength(0); j++)
+                for (int j = 0; j < _forest.GetLength(0); j++)
                 {
                     // Splits by tile type
-                    if (forest[j, i] is Tree tree)
+                    if (_forest[j, i] is Tree tree)
                     {
                         // Checks tree attributes to output. Att.'s sooner in the foreground & background sections take precident.
-                        
+
                         //FOREGROUND
                         if (tree.Has_Dove)
                         {
@@ -97,13 +103,19 @@ namespace ForestSim
                     {
                         ASCIIChar = ' ';
                     }
-                    
+
                     Console.Write(ASCIIChar);
                 }
                 Console.BackgroundColor = ConsoleColor.Black;
                 Console.WriteLine();
             }
         }
+
+        public void ReplantTree((int x, int y) coord)
+        {
+            ReplantTree(coord.x, coord.y);
+        }
+
         public void ReplantTree(int x, int y)
         {
             if (_forest[x, y] is Tree)
@@ -126,6 +138,7 @@ namespace ForestSim
                     case int i when (6 <= i && i <= 15):
                         newTree = new Spruce();
                         break;
+
                     default:
                         throw new InvalidOperationException();
                 }
@@ -134,7 +147,7 @@ namespace ForestSim
             }
         }
 
-        void MapToTrees(Action<Tree> action)
+        private void MapToTrees(Action<Tree> action)
         {
             foreach (Tile tile in _forest)
             {
@@ -144,15 +157,16 @@ namespace ForestSim
                 }
             }
         }
+
         /* USAGE:
-         * 
+         *
          * MapToTrees((Tree tree) => lambda function)
-         * 
+         *
          * Eg. Single expression:
          * MapToTrees((Tree tree) => tree.var += 6)
-         * 
+         *
          * Adds 6 to each tree's .var attribute
-         * 
+         *
          * Eg. Block of code
          * MapToTrees((Tree tree) =>
          * {
@@ -162,9 +176,14 @@ namespace ForestSim
          *      }
          *      tree.var3 = 6;
          * });
-         * 
-         * 
+         *
+         *
          * You can also define an 'action' function elsewhere and pass it in
          */
+
+        public Tile GetTile(int x, int y)
+        {
+            return _forest[x, y];
+        }
     }
 }

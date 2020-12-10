@@ -1,21 +1,25 @@
-﻿using System;
+﻿using ForestSim.Utilities;
 using System.Collections.Generic;
-using System.Text;
-using ForestSim.Utilities;
 
 namespace ForestSim.Models
 {
-    class Forester
+    public class Forester
     {
-
-        public void CutTree(Forest forest, Queue<Tree> loggingQueue, Queue<(int x,int y)> replantQueue)
+        public void CutTree(Forest forest, Queue<ICuttable> loggingQueue, Queue<(int x, int y)> replantQueue)
         {
-
-            do
+            while (true)
             {
-                int x = Utils.GetRandomNumber(0, forest)
-            } while (true);
+                int x = Utils.GetRandomNumber(0, forest.ForestWidth - 1);
+                int y = Utils.GetRandomNumber(0, forest.ForestHeight - 1);
+                Tile tile = forest.GetTile(x, y);
 
+                if (tile is ICuttable t && t.IsCuttable())
+                {
+                    loggingQueue.Enqueue(t);
+                    replantQueue.Enqueue((x, y));
+                    break;
+                }
+            }
         }
     }
 }

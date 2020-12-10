@@ -4,26 +4,26 @@ using System.Text;
 
 namespace ForestSim
 {
-    interface ICuttable
+    public interface ICuttable
     {
-        bool Cut();
+        bool IsCuttable();
     }
-    interface ITapable
+    public interface ITapable
     {
         bool Tap();
     }
-    enum AgeCatagory
+    public enum AgeCatagory
     {
         Young,
         Mature,
         Elderly,
         Unknown
     }
-    class Tile
+    public class Tile
     {
 
     }
-    class Tree : Tile
+    public abstract class Tree : Tile
     {
         //TODO: Make abstract
         public Tree(int age_days)
@@ -38,6 +38,7 @@ namespace ForestSim
 
         //AGE:
         protected int _age;
+        protected bool _diseased;
         protected (int minAge, AgeCatagory ageCatagory)[] _ageRanges; // Array of tuples :D
 
         public int Age_Days
@@ -93,8 +94,12 @@ namespace ForestSim
                 (70, AgeCatagory.Elderly)
             };
         }
-        public bool Cut()
+        public bool IsCuttable()
         {
+            if (_diseased) { return true; }
+            if (this.AgeCatagory != AgeCatagory.Mature) { return false; }
+            if (Has_Dove) { return false; }
+
             return true;
         }
     }
@@ -108,8 +113,12 @@ namespace ForestSim
                 (150, AgeCatagory.Elderly)
             };
         }
-        public bool Cut()
+        public bool IsCuttable()
         {
+            if (_diseased) { return true; }
+            if (this.AgeCatagory != AgeCatagory.Mature) { return false; }
+            if (Has_Dove) { return false; }
+
             return true;
         }
     }
@@ -122,9 +131,9 @@ namespace ForestSim
                 (4, AgeCatagory.Mature) //Tapable at mature, instead of cuttable
             };
         }
-        public bool Cut()
+        public bool IsCuttable()
         {
-            return true;
+            return _diseased;
         }
 
         public bool Tap()

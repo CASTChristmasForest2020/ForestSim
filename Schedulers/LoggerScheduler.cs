@@ -7,7 +7,7 @@ namespace ForestSim
     internal class LoggerScheduler : Scheduler
     {
         private readonly List<Forester> foresters;
-        private readonly Queue<Tree> loggingQueue = new Queue<Tree>();
+        private readonly Queue<ICuttable> loggingQueue = new Queue<ICuttable>();
         private readonly Queue<(int x, int y)> replantQueue = new Queue<(int x, int y)>();
 
         public LoggerScheduler(Forest forest, List<Forester> foresters) : base(forest)
@@ -28,22 +28,15 @@ namespace ForestSim
 
         public override void OnPostDay(object sender, EventArgs e)
         {
-            while (loggingQueue.Count > 0)
+            //while (loggingQueue.Count > 0)
+            //{
+               //TODO trucking queue
+            //}
+
+            while (replantQueue.Count > 0)
             {
-
+                forest.ReplantTree(replantQueue.Dequeue());
             }
-
-            while (replantQueue.Co)
-        }
-
-        public override void OnMonth(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void OnYear(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
         }
     }
 }
