@@ -120,29 +120,14 @@ namespace ForestSim
         {
             if (_forest[x, y] is Tree)
             {
-                Tree newTree;
                 int randNum = Utils.GetRandomNumber(1, 15);
-
-                //Ratio of 5:8:2 maple:fir:spurce so 1/3 is maple and other is split 4:1
-
-                switch (randNum)
+                Tree newTree = randNum switch
                 {
-                    case 1:
-                        newTree = new Fir();
-                        break;
-
-                    case int i when (1 <= i && i <= 5):
-                        newTree = new Maple();
-                        break;
-
-                    case int i when (6 <= i && i <= 15):
-                        newTree = new Spruce();
-                        break;
-
-                    default:
-                        throw new InvalidOperationException();
-                }
-
+                    int i when (1 <= i && i <= 2) => new Spruce(),
+                    int i when (3 <= i && i <= 6) => new Maple(),
+                    int i when (7 <= i && i <= 15) => new Fir(),
+                    _ => throw new InvalidOperationException(),
+                };
                 _forest[x, y] = newTree;
             }
         }

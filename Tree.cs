@@ -1,6 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using ForestSim.Interfaces;
+using System;
 
 namespace ForestSim
 {
@@ -8,10 +7,12 @@ namespace ForestSim
     {
         bool IsCuttable();
     }
+
     public interface ITapable
     {
         bool Tap();
     }
+
     public enum AgeCatagory
     {
         Young,
@@ -19,10 +20,11 @@ namespace ForestSim
         Elderly,
         Unknown
     }
+
     public class Tile
     {
-
     }
+
     public abstract class Tree : Tile
     {
         //TODO: Make abstract
@@ -31,13 +33,14 @@ namespace ForestSim
             Random r = new Random();
 
             Age_Days = age_days;
-            
+
             if (r.Next(0, 51) == 0) { Has_Dove = true; }
             else { Has_Dove = false; }
         }
 
         //AGE:
         protected int _age;
+
         protected bool _diseased;
         protected (int minAge, AgeCatagory ageCatagory)[] _ageRanges; // Array of tuples :D
 
@@ -47,23 +50,27 @@ namespace ForestSim
             protected set
             {
                 if (value >= 0) { _age = value; }
-                else {
+                else
+                {
                     throw new ArgumentOutOfRangeException("Age_Days", String.Format("{0} is a negative age.", value));
                 }
             }
         }
+
         public double Age_Years { get { return _age / (double)365; } }
 
         protected void Increment_Age(int days)
         {
             Age_Days += days;
         }
+
         protected void Increment_Age()
         {
             Increment_Age(1);
         }
 
-        public AgeCatagory AgeCatagory {
+        public AgeCatagory AgeCatagory
+        {
             get
             {
                 for (int i = _ageRanges.Length - 1; i >= 0; i--)
@@ -84,9 +91,10 @@ namespace ForestSim
             protected set;
         }
     }
-    class Fir : Tree, ICuttable
+
+    public class Fir : Tree, ICuttable, ITruckable
     {
-        public Fir (int age_days = 0) : base (age_days)
+        public Fir(int age_days = 0) : base(age_days)
         {
             _ageRanges = new (int minAge, AgeCatagory ageCatagory)[] {
                 (0, AgeCatagory.Young),
@@ -94,6 +102,9 @@ namespace ForestSim
                 (70, AgeCatagory.Elderly)
             };
         }
+
+        public int maxTruckCapacity => 35;
+
         public bool IsCuttable()
         {
             if (_diseased) { return true; }
@@ -103,9 +114,10 @@ namespace ForestSim
             return true;
         }
     }
-    class Spruce : Tree, ICuttable
+
+    public class Spruce : Tree, ICuttable, ITruckable
     {
-        public Spruce(int age_days = 0) : base (age_days)
+        public Spruce(int age_days = 0) : base(age_days)
         {
             _ageRanges = new (int minAge, AgeCatagory ageCatagory)[] {
                 (0, AgeCatagory.Young),
@@ -113,6 +125,9 @@ namespace ForestSim
                 (150, AgeCatagory.Elderly)
             };
         }
+
+        public int maxTruckCapacity => 15;
+
         public bool IsCuttable()
         {
             if (_diseased) { return true; }
@@ -122,7 +137,8 @@ namespace ForestSim
             return true;
         }
     }
-    class Maple : Tree, ICuttable, ITapable
+
+    public class Maple : Tree, ICuttable, ITapable
     {
         public Maple(int age_days = 0) : base(age_days)
         {
@@ -131,6 +147,7 @@ namespace ForestSim
                 (4, AgeCatagory.Mature) //Tapable at mature, instead of cuttable
             };
         }
+
         public bool IsCuttable()
         {
             return _diseased;

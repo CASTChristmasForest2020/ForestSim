@@ -1,23 +1,52 @@
-﻿using ForestSim.Utilities;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace ForestSim.Models
 {
     public class Forester
     {
-        public void CutTree(Forest forest, Queue<ICuttable> loggingQueue, Queue<(int x, int y)> replantQueue)
-        {
-            while (true)
-            {
-                int x = Utils.GetRandomNumber(0, forest.ForestWidth - 1);
-                int y = Utils.GetRandomNumber(0, forest.ForestHeight - 1);
-                Tile tile = forest.GetTile(x, y);
+        private int DaysWorked = 0;
 
-                if (tile is ICuttable t && t.IsCuttable())
+        public void ResetDaysWorked()
+        {
+            DaysWorked = 0;
+        }
+
+        public void CutDaysTree(Forest forest, Queue<ICuttable> loggingQueue, Queue<(int x, int y)> replantQueue)
+        {
+            DaysWorked++;
+
+            if (DaysWorked> 30) { return; }
+
+            int firsCut = 0;
+            int sprucesCut = 0;
+
+            for (int x = 0; x < forest.ForestWidth; x++)
+            {
+                for (int y = 0; y < forest.ForestHeight; y++)
                 {
-                    loggingQueue.Enqueue(t);
-                    replantQueue.Enqueue((x, y));
-                    break;
+                    Tile tile = forest.GetTile(x, y);
+                    if (tile is ICuttable t && t.IsCuttable())
+                    {
+                        switch (t)
+                        {
+                            case Spruce _:
+                                // Don't cut any more if spruce at limit. Moves to next tree
+                                if (sprucesCut >= 4) { continue; }
+
+                                sprucesCut++;
+                                break;
+
+                            case Fir _:
+                                // Don't cut any more if fir at limit
+                                if (firsCut >= 10) { continue; }
+
+                                firsCut++;
+                                break;
+                        }
+
+                        loggingQueue.Enqueue(t);
+                        replantQueue.Enqueue((x, y));
+                    }
                 }
             }
         }
