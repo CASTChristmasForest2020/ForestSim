@@ -19,13 +19,23 @@ namespace ForestSim
         Elderly,
         Unknown
     }
-    class Tree
+    class Tile
+    {
+
+    }
+    class Tree : Tile
     {
         //TODO: Make abstract
         public Tree(int age_days)
         {
+            Random r = new Random();
+
             Age_Days = age_days;
+            
+            if (r.Next(0, 51) == 0) { Has_Dove = true; }
+            else { Has_Dove = false; }
         }
+
         //AGE:
         protected int _age;
         protected (int minAge, AgeCatagory ageCatagory)[] _ageRanges; // Array of tuples :D
@@ -65,10 +75,17 @@ namespace ForestSim
                 return AgeCatagory.Unknown;
             }
         }
+
+        //DOVES
+        public bool Has_Dove
+        {
+            get;
+            protected set;
+        }
     }
     class Fir : Tree, ICuttable
     {
-        public Fir (int age_days) : base (age_days)
+        public Fir (int age_days = 0) : base (age_days)
         {
             _ageRanges = new (int minAge, AgeCatagory ageCatagory)[] {
                 (0, AgeCatagory.Young),
@@ -83,7 +100,7 @@ namespace ForestSim
     }
     class Spruce : Tree, ICuttable
     {
-        public Spruce(int age_days) : base (age_days)
+        public Spruce(int age_days = 0) : base (age_days)
         {
             _ageRanges = new (int minAge, AgeCatagory ageCatagory)[] {
                 (0, AgeCatagory.Young),
@@ -98,7 +115,7 @@ namespace ForestSim
     }
     class Maple : Tree, ICuttable, ITapable
     {
-        public Maple(int age_days) : base(age_days)
+        public Maple(int age_days = 0) : base(age_days)
         {
             _ageRanges = new (int minAge, AgeCatagory ageCatagory)[] {
                 (0, AgeCatagory.Young),
