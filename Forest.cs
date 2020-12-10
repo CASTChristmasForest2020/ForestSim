@@ -3,7 +3,7 @@ using System;
 
 namespace ForestSim
 {
-    public class Forest
+    class Forest
     {
         private Tile[,] _forest;
         public Forest(int ForestWidth, int ForestHeight)
@@ -46,19 +46,6 @@ namespace ForestSim
                 outputTree = new Fir();
                 return outputTree;
             }
-        }
-
-        public void ReplantTree(int x, int y)
-        {
-            int randNum = Utils.GetRandomNumber(1, 15);
-            Tree newTree = randNum switch
-            {
-                int i when (1 <= i && i <= 2) => new Fir(),
-                int i when (2 <= i && i <= 6) => new Maple(),
-                int i when (7 <= i && i <= 15) => new Spruce(),
-                _ => throw new InvalidOperationException(),
-            };
-            _trees[x, y] = newTree;
         }
 
         private void DisplayForest(Tile[,] forest)
@@ -117,6 +104,36 @@ namespace ForestSim
                 Console.WriteLine();
             }
         }
+        public void ReplantTree(int x, int y)
+        {
+            if (_forest[x, y] is Tree)
+            {
+                Tree newTree;
+                int randNum = Utils.GetRandomNumber(1, 15);
+
+                //Ratio of 5:8:2 maple:fir:spurce so 1/3 is maple and other is split 4:1
+
+                switch (randNum)
+                {
+                    case 1:
+                        newTree = new Fir();
+                        break;
+
+                    case int i when (1 <= i && i <= 5):
+                        newTree = new Maple();
+                        break;
+
+                    case int i when (6 <= i && i <= 15):
+                        newTree = new Spruce();
+                        break;
+                    default:
+                        throw new InvalidOperationException();
+                }
+
+                _forest[x, y] = newTree;
+            }
+        }
+
         void MapToTrees(Action<Tree> action)
         {
             foreach (Tile tile in _forest)
@@ -126,11 +143,6 @@ namespace ForestSim
                     action(tree);
                 }
             }
-        }
-
-        public Tree GetTree(int x, int y)
-        {
-            return _trees(x, y);
         }
         /* USAGE:
          * 
