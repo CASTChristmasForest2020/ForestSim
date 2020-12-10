@@ -22,7 +22,7 @@ namespace ForestSim
         {
             foreach (var forester in foresters)
             {
-                forester.CutTree(loggingQueue, replantQueue);
+                forester.CutTree(forest, loggingQueue, replantQueue);
             }
         }
 
